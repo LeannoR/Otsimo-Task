@@ -7,10 +7,11 @@ public class SnapSlot : MonoBehaviour
     public GameObject sword;
     public PlayerController playerController;
 
-    private Vector2 handPos;
-    private bool isEquipped = false;
-    private float grabbableSwordRange = 0.5f;
+    public bool isEquipped = false;
+
     private Vector2 swordFirstScale;
+    private Vector2 handPos;
+    private float grabbableSwordRange = 0.5f;
     void Start()
     {
         swordFirstScale = sword.transform.localScale;
@@ -33,9 +34,7 @@ public class SnapSlot : MonoBehaviour
         }
         else if(distanceXY > grabbableSwordRange)
         {
-            isEquipped = false;
-            sword.transform.parent = null;
-            sword.transform.localScale = swordFirstScale;
+            UnEquipSword();
         }
     }
     public void SnapSword()
@@ -61,5 +60,12 @@ public class SnapSlot : MonoBehaviour
             }
         }
         isEquipped = true;
+    }
+
+    public void UnEquipSword()
+    {
+        isEquipped = false;
+        sword.transform.parent = null;
+        sword.transform.localScale = swordFirstScale;
     }
 }
