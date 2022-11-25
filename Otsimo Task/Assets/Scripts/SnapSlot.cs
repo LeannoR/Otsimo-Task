@@ -11,6 +11,7 @@ public class SnapSlot : MonoBehaviour
 
     private Vector2 swordFirstScale;
     private Vector2 handPos;
+    private float distance;
     private float grabbableSwordRange = 0.5f;
     void Start()
     {
@@ -19,20 +20,18 @@ public class SnapSlot : MonoBehaviour
 
     void Update()
     {
-        FindingDistanceBetweenObjects();
+        EquipAndUnEquipSword();
     }
 
-    public void FindingDistanceBetweenObjects()
+    public void EquipAndUnEquipSword()
     {
-        handPos = transform.position;
-        Vector2 distance = handPos - (Vector2)sword.transform.position;
-        float distanceXY = distance.magnitude;
+        distance = DistanceBetweenSwordAndHand();
 
-        if(distanceXY <= grabbableSwordRange)
+        if (distance <= grabbableSwordRange)
         {
             SnapSword();
         }
-        else if(distanceXY > grabbableSwordRange)
+        else if(distance > grabbableSwordRange)
         {
             UnEquipSword();
         }
@@ -64,8 +63,16 @@ public class SnapSlot : MonoBehaviour
 
     public void UnEquipSword()
     {
-        isEquipped = false;
         sword.transform.parent = null;
         sword.transform.localScale = swordFirstScale;
+        isEquipped = false;
+    }
+
+    public float DistanceBetweenSwordAndHand()
+    {
+        handPos = transform.position;
+        Vector2 distance = handPos - (Vector2)sword.transform.position;
+        float distanceXY = distance.magnitude;
+        return distanceXY;
     }
 }
